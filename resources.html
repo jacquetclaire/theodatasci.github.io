@@ -2166,6 +2166,23 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     background-color: #487997;
   }
 
+  .container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 86.25%;
+  }
+
+  .responsive-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2203,24 +2220,44 @@ Courses
 </button>
 <div class="nav-dropdown-content">
 <span class="nav-dropdown-header">DAY 1</span>
-<span class="nav-dropdown-header">Sonia Kefi talk</span>
-<span class="nav-dropdown-header">Isabelle Gounand talk</span>
-<span class="nav-dropdown-header">Vincent Calcagno talk</span>
-<span class="nav-dropdown-header">Kim Cuddington talk</span>
+<a href="courses/theo-modeling/intro_why_models.html">Sonia Kefi's talk</a>
+<a href="courses/theo-modeling/TAED_2025_Day_1_IG.pdf">Isabelle Gounand's talk</a>
+<a href="courses/theo-modeling/Course_Day1_Isabelle.R">Isabelle Gounand's code</a>
+<a href="courses/theo-modeling/TDAED_stats_2024.pdf">Vincent Calcagno's talk</a>
+<a href="https://www.youtube.com/watch?v=1xD7BAOKllw">Sally Otto's talk</a>
+<a href="https://www.ecotheory.ca/theorydata/datatheory.html">bonus from earlier editions: Kim Cuddington's talk</a>
 <span class="nav-dropdown-header">DAY 2</span>
-<span class="nav-dropdown-header">Emmanuel Fronhofer talk</span>
+<a href="courses/time-series/emmanuel/fronhofer_day2_cesab_theomodive.pdf">Emmanuel Fronhofer's talk</a>
+<a href="courses/time-series/benjamin/time_series_data_talk.pdf">Benjamin Rosenbaum's talk</a>
+<a href="https://raw.githubusercontent.com/fbarraquand/overcompensating-popdyn-models/main/popdyn-vole-models.pdf">bonus from earlier editions: Frédéric Barraquand's talk</a>
 <span class="nav-dropdown-header">DAY 3</span>
-<span class="nav-dropdown-header">Vincent Calcagno talk</span>
-<span class="nav-dropdown-header">Maxime Dubart GitHub</span>
-<span class="nav-dropdown-header">Davide Martinetti talk</span>
+<a href="courses/spatial-data/TDAED_day3_slides_2024.pdf">Vincent Calcagno's talk</a>
+<a href="https://github.com/mxdub/TMDSpatial_data">Maxime Dubart's GitHub</a>
+<span class="nav-dropdown-header">Davide Martinetti's talk</span>
 <span class="nav-dropdown-header">DAY 4</span>
-<span class="nav-dropdown-header">François Massol talk</span>
-<span class="nav-dropdown-header">Matthieu Barbier talk</span>
-<span class="nav-dropdown-header">Claire Jacquet talk</span>
-<span class="nav-dropdown-header">Sonia Kéfi talk</span>
+<span class="nav-dropdown-header">François Massol's talk</span>
+<span class="nav-dropdown-header">Matthieu Barbier's talk</span>
+<span class="nav-dropdown-header">Claire Jacquet's talk</span>
+<span class="nav-dropdown-header">Sonia Kéfi's talk</span>
 </div>
 </div>
 <a href="resources.html">Resources</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Papers for group work
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="Papers for group work/Bastidas‐Urrutia et al 2024 J Biogeography.pdf">Bastidas‐Urrutia et al. 2024 Journal of Biogeography</a>
+<a href="Papers for group work/Calcagno et 2022 Functional Ecology.pdf">Calcagno et 2022 Functional Ecology</a>
+<a href="Papers for group work/DeLong Lyon 2020 PeerJ.pdf">DeLong &amp; Lyon 2020 PeerJ</a>
+<a href="Papers for group work/OGorman 2023 NatureEE.pdf">O'Gorman et al. 2023 Nature Ecology &amp; Evolution</a>
+<a href="Papers for group work/Van De Walle Journal of Animal Ecology - 2023.pdf">Van De Walle et al. 2023 Journal of Animal Ecology</a>
+<a href="Papers for group work/Yoshida et al 2003 Nature.pdf">Yoshida et al. 2003 Nature</a>
+</div>
+</div>
+<a href="datasets.html">Data for group work</a>
 <a href="https://github.com/theodatasci/theodatasci.github.io" aria-label="Link to source">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
@@ -2274,8 +2311,6 @@ Courses
  <a href="biblio/deruiter-1995.pdf"><strong>PDF</strong></a></p></li>
 <li><p>Dunne JA, Williams RJ &amp; Martinez ND (2002) Network structure and biodiversity loss in food webs: robustness increases with connectance. <strong><em>Ecology Letters</em></strong>, doi: <a href="https://doi.org/10.1046/j.1461-0248.2002.00354.x">10.1046/j.1461-0248.2002.00354.x</a>.
  <a href="biblio/dunne-2002.pdf"><strong>PDF</strong></a></p></li>
-<li><p>Grainger TN <em>et al.</em> (2022) An empiricist’s guide to using ecological theory. <strong><em>The American Naturalist</em></strong>, doi: <a href="https://doi.org/10.1086/717206">10.1086/717206</a>.
- <a href="biblio/grainger-2022.pdf"><strong>PDF</strong></a></p></li>
 <li><p>James A <em>et al.</em> (2015) Constructing random matrices to represent real ecosystems. <strong><em>The American Naturalist</em></strong>, doi: <a href="https://doi.org/10.1086/680496">10.1086/680496</a>.
  <a href="biblio/james-2015.pdf"><strong>PDF</strong></a></p></li>
 <li><p>Leger J-B, Daudin J-J &amp; Vacher C (2015) Clustering methods differ in their ability to detect patterns in ecological networks. <strong><em>Methods in Ecology and Evolution</em></strong>, doi: <a href="https://doi.org/10.1111/2041-210X.12334">10.1111/2041-210X.12334</a>.
