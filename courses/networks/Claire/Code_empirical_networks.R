@@ -6,7 +6,7 @@ library(MASS)
 library(plotrix)
 
 #################
-# 14.03.2024
+# 20.03.2054
 # Complexity-stability relationship in empirical food webs
 ###########################
 
@@ -31,7 +31,7 @@ Complexity
 draw.circle(mean(diag(m)),0,Complexity,lty=2)
 max(as.numeric(eigen(m)$values)) # the maximum eigenvalue, the one driving stability
 
-# Let's change the non-diagonal elements (the variance of interaction strengths):
+# Let's change the variance of the non-diagonal elements :
 m2<-matrix(rnorm(10^6,mean = 0, sd=0.1),nrow=10^3)
 NNE_sd = sd(m2)
 Diversity = nrow(m2) # Number of species in network i
@@ -100,37 +100,37 @@ Stab = numeric(length=ndat) # Local stability
 # Descriptors of food-web complexity
 Diversity = numeric(length=ndat) # Species richness
 Connectance = numeric(length=ndat) # Connectance
-NNE_sd = numeric(length=ndat) # Standard deviation of interaction strengths
+NNE_sd = numeric(length=ndat) # Standard deviation of non-zero off-diagonal elements
 Complexity = numeric(length=ndat) # May's stability criterion
 
 for (i in 1 : ndat){
   
   D = DIET[[i]] # Diet matrix of network i
-  B = as.numeric(B_vec[[i]]) # Species biomass
-  P = as.numeric(P_vec[[i]]) # P/B
-  Q = as.numeric(Q_vec[[i]]) # Q/B
+  B = as.numeric(B_vec[[i]]) # Species biomass (tons/km^2)
+  P = as.numeric(P_vec[[i]]) # P/B (/year)
+  Q = as.numeric(Q_vec[[i]]) # Q/B (/year)
   S = length(B) # Number of species in network i
   
   # We compute the outflows matrix (the biomass of each species that is consumed by another one)
-  OUTFLOWS = -t(D%*%diag(Q)%*%diag(B)) # Negative effect of the consumer population on their resources
+  OUTFLOWS = -t(D%*%diag(Q)%*%diag(B)) # Negative effect of the consumer population on their resources (tons/km^2/year)
   
   # We compute the inflows matrix (the biomass consumed that is converted into predator biomass)
-  e = P/Q # Resource conversion efficiency
+  e = P/Q # Resource conversion efficiency (dimensionless)
   e[e=="Inf"] = 0 # if species i is not a consumer, then Q[i] = 0 and P/Q = Inf. We replace "Inf" by 0.
-  INFLOWS = -t(OUTFLOWS*e) # Positive signs (i.e., add biomass to consumers)
+  INFLOWS = -t(OUTFLOWS*e) # Positive signs because add biomass to consumers (tons/km^2/year)
   
-  # We compute the per capita interaction matrix A, that is outflows and inflows matrices divided by predator and prey biomasses
-  B2 = diag(B)%*%matrix(1,S,S)%*%diag(B) # B_rc x B_cr
+  # We compute the per capita interaction matrix A, that is outflows and inflows matrices divided by predator and prey biomasses (both in tons/km^2)
+  B2 = diag(B)%*%matrix(1,S,S)%*%diag(B) # (tons^2/km^4)
   A = t((OUTFLOWS+INFLOWS)/B2)
-  A_mat[[i]] = A # The per capita interaction matrix
+  A_mat[[i]] = A # The per capita interaction matrix (km^2/tons/year)
   
-  # We compute the community matrix (or Jacobian matrix):
-  J = diag(B)%*%A
+  # We compute the community matrix (or Jacobian matrix, elements J_ij quantify the effect of a perturbation of population biomass Bj on the net variation of population biomass Bi):
+  J = A*B # (/year)
   C_mat[[i]] = J
   
   # We compute local stability
   Stab[i] = max(as.numeric(eigen(J)$values))
-
+  
   # Species richness
   Diversity[i] = length(B) # Number of species in network i
   
@@ -150,9 +150,9 @@ for (i in 1 : ndat){
 ###########################################################
 # Plot the relationship between complexity and stability
 plot(Complexity,Stab,las=1,
-  xlab = expression(Complexity~sigma*sqrt(S*C)),
-  ylab = expression(Instability~italic(Re(lambda*scriptstyle(max)))),
-  pch=21)
+     xlab = expression(Complexity~sigma*sqrt(S*C)),
+     ylab = expression(Instability~italic(Re(lambda*scriptstyle(max)))),
+     pch=21)
 
 # Test the significance of the relationship between complexity and stability
 model = lm(Stab~Complexity)
@@ -211,18 +211,18 @@ for (i in 1 : ndat){ # Loop over all food webs
   pairs = cbind(J[upper.tri(J)],tJ[upper.tri(tJ)]) # pairs of interactions
   
   for (oo in 1 :length(rep)){ # Replication loop
-  vec = pairs[sample(1:nrow(pairs)),] # randomization of the position of pairs of interactions in the matrix   
-  H1 = matrix(0,S,S)
-  tH1 = t(H1)
-  H1[upper.tri(H1)] = vec[,1]
-  tH1[upper.tri((tH1))] = vec[,2]
-  H1 = H1+t(tH1) # Community matrix with random topological structure
-  rep[oo] =  max(as.numeric(eigen(H1)$values)) 
+    vec = pairs[sample(1:nrow(pairs)),] # randomization of the position of pairs of interactions in the matrix   
+    H1 = matrix(0,S,S)
+    tH1 = t(H1)
+    H1[upper.tri(H1)] = vec[,1]
+    tH1[upper.tri((tH1))] = vec[,2]
+    H1 = H1+t(tH1) # Community matrix with random topological structure
+    rep[oo] =  max(as.numeric(eigen(H1)$values)) 
   }
   
   Stab_H1[i] = mean(rep) # Stability averaged over the replications
 }
-  
+
 # Plot the relationship between complexity and stability
 plot(Complexity,Stab_H1,las=1,
      xlab = expression(Complexity~sigma*sqrt(S*C)),
