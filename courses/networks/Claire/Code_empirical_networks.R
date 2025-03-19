@@ -6,7 +6,7 @@ library(MASS)
 library(plotrix)
 
 #################
-# 20.03.2054
+# 20.03.2025
 # Complexity-stability relationship in empirical food webs
 ###########################
 
@@ -14,7 +14,7 @@ library(plotrix)
 #May's result in random communities
 ###########################
 m<-matrix(rnorm(10^6),nrow=10^3)
-diag(m)=-1
+diag(m)=0
 plot(eigen(m)$values,xlab="real part",ylab="imaginary part")
 abline(h=0)
 abline(v=0)
@@ -33,6 +33,7 @@ max(as.numeric(eigen(m)$values)) # the maximum eigenvalue, the one driving stabi
 
 # Let's change the variance of the non-diagonal elements :
 m2<-matrix(rnorm(10^6,mean = 0, sd=0.1),nrow=10^3)
+diag(m2)=0
 NNE_sd = sd(m2)
 Diversity = nrow(m2) # Number of species in network i
 Connectance = mean(m2!=0) # Connectance
@@ -47,6 +48,7 @@ max(as.numeric(eigen(m2)$values)) #the maximum eigenvalue, the one driving stabi
 
 # What if the matrix is smaller? E.g., 50 species instead of 1000? 
 m<-matrix(rnorm(50^2),nrow=50)
+diag(m)=0
 plot(eigen(m)$values,xlab="real part",ylab="imaginary part")
 abline(h=0)
 abline(v=0)
@@ -197,6 +199,8 @@ sample(pairs[,2])
 help(mvrnorm) # useful function to generate bivariate normal distribution (for example: with mean of positive elements, mean of negative elements and covariance matrix)
 BD=mvrnorm(n = 100, c(mean(pairs[,1]),mean(pairs[,2])), Sigma=cov(pairs)) #Bivariate normal distribution with mean of positive elements, mean of negative elements and covariance matrix
 
+help(sign) # return the signs of the elements of a given object (0, -1 or +1)
+sign(J)
 ######################################################################
 # An example of randomization test:
 # Changing the topological structure of the community matrix (H1)
