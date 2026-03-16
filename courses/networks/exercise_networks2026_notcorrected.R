@@ -8,7 +8,7 @@ library(rmangal)
 library(matlib)
 library(calculus)
 library(ggplot2)
-#setwd("C:\\xxx")
+setwd("C:\\Massol\\Enseignement\\Théorie CESAB")
 source('functions_network.R')
 
 ####In FWebs, there is a large list of food webs called mg1
@@ -44,13 +44,10 @@ degree(net,mode="in")
 degree(net,mode="out")
 
 ####Compute the connectance of the empirical network
-#answer
-conn<-mean(as.matrix(net.mat[,]))
+
 
 ####Plot its degree distribution
-#answer
-hist(degree(net.mat),breaks=0:max(degree(net.mat)))
-plot(degree_distribution(net.mat, cumulative = TRUE))
+
 
 net<-sample_bipartite(4,4,"gnm",m=8)
 net[,]
@@ -76,9 +73,6 @@ m<-cascade_matrix(10,200)
 sum(m)/(dim(m)[1]*(dim(m)[1]-1))
 
 ####Generate 100 virtual food webs based on the niche model with the actual connectance
-#answer
-niches<-lapply(1:100,function(x) niche_matrix(conn,dim(mat)[1]))
-ms<-lapply(1:100,function(x) niches[[x]]$matrix)
 
 niche<-niche_matrix(0.2,100)
 m<-niche$matrix
@@ -110,7 +104,7 @@ dim(sample.bip.config)
 
 n<-1000
 net<-sample_gnp(n,0.2, directed = TRUE)
-sample.config.directed<-lapply(1:100,function(x) sample_degseq(degree(net,mode="out"), degree(net,mode="in"), method = "simple.no.multiple"))
+sample.config.directed<-lapply(1:100,function(x) sample_degseq(degree(net,mode="out"), degree(net,mode="in"), method = "fast.heur.simpl"))
 length(sample.config.directed)
 
 net<-sample_gnp(n,0.2, directed = FALSE)
@@ -127,34 +121,21 @@ plot(LE.mod,net,layout = layout_with_mds)
 plot(ML.mod,net,layout = layout_with_mds)
 
 ####Is the empirical FW less modular (or more modular) than the niche model food webs?
-#answer
-modul<-cluster_louvain(graph_from_adjacency_matrix(mat,mode="undirected"))
-moduls<-sapply(1:100,function(x) cluster_louvain(graph_from_adjacency_matrix(ms[[x]],mode="undirected"))$modularity[2])
-plot(density(moduls))
-modul.ecdf<-ecdf(moduls)
-1-modul.ecdf(modul$modularity[2])
 
-p.val(modul$modularity[2],moduls,"larger","Null modularity distribution")
+
 
 sbmnet <- sampleSimpleSBM(100, c(.5, .25, .25), list(mean = diag(.4, 3) + 0.05), model = 'bernoulli')
-sbmnet$networkData
+head(sbmnet$networkData)
 net.SBM <- estimateSimpleSBM(as.matrix(sbmnet$networkData))
 plot(net.SBM, 'expected')
 plot(net.SBM, 'data')
 
 ####is the empirical food web structured by modules or blocks?
-#answer
-m.SBM <- estimateSimpleSBM(mat)
-make_alluvial_2(m.SBM$memberships,modul$membership,"Blocks","Modules")
+
+
 
 ####are blocks/modules related to trophic levels?
-#answer
-count_components(net.mat)
-net.comp<-components(net.mat)
-tl.1<-trophic_levels(largest_component(net.mat))
-plot(largest_component(net.mat),layout = layout_as_food_web)
-plot(tl.1~as.factor(m.SBM$indMemberships[which(net.comp$membership==1),]%*%(1:3)),xlab="SBM group",ylab="Trophic level")
-plot(tl.1~as.factor(modul$membership[which(net.comp$membership==1)]),xlab="module",ylab="Trophic level")
+
 
 ####Spectral clustering
 SC<-spectral_clustering(graph_from_adjacency_matrix(sbmnet$networkData),3)
@@ -164,3 +145,8 @@ laplacian_spectral_gap(graph_from_adjacency_matrix(sbmnet$networkData))
 optims<-sapply(4:10,function(n) laplacian_spectral_gap(graph_from_adjacency_matrix(sampleSimpleSBM(100, rep(1/n, n), list(mean = diag(.4, n) + 0.05), model = 'bernoulli')$networkData))$optim_n)
 par(mfrow=c(1,1))
 plot(4:10,optims)
+
+
+####Is the empirical FW less modular (or more modular) than the niche model food webs?
+
+
